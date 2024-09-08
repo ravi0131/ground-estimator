@@ -113,10 +113,13 @@ class GroundEstimator:
             visualize: boolean
         
         Returns:
-            Ground points: nx3
-            Non-ground poins: nx3
-            points (ground + non-ground) in ROI with ground mask: nx4
-          
+            - Ground points: nx3
+            - Non-ground poins: nx3
+            - points (ground + non-ground) in ROI with ground mask: nx4
+        
+        Raises:
+            ValueError:
+                - If the number of available ground points is smaller than the minimum required samples for RANSAC (ransac_min_samples).
         """
         logger.info("Starting ground removal process.")
         original_point_cloud = self.points
@@ -151,6 +154,10 @@ class GroundEstimator:
         
         if step_by_step_visualization:
             visualize_point_cloud(dbscan_labels, refined_ground_points)
+        
+        n_samples = len(ground_points)
+        if n_samples < ransac_min_samples:
+            raise ValueError(f"Number of available ground points ({n_samples}) is smaller than the minimum required samples for RANSAC ({ransac_min_samples}).")
         
         # Step 5: Second round of RANSAC for refined ground plane fitting
         logger.info("Performing second round of RANSAC for refined ground plane fitting.")
