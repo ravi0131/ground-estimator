@@ -9,7 +9,7 @@ from typing import Tuple
 logger = logging.getLogger(__name__)
 
 
-def remove_ground(points,points_roi, eps=0.4, min_samples=8, ransac_min_samples=100, z_offset=0.2, step_by_step_visualization=False, visualize=False, percentile=0.5) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:   
+def remove_ground(points,points_roi, eps=0.4, min_samples=8, ransac_min_samples=100, z_offset=0.2, step_by_step_visualization=False, visualize=False, percentile=50) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:   
         """
         Estimate and remove ground from the given point cloud. If flags are set then visualize the process step-by-step and/or visualize the end result with the original scene.
         
